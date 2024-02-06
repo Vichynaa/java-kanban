@@ -1,15 +1,15 @@
-package sprint4.tasks;
+package sprint4.models;
 
 public class Subtask extends Task {
-    private final int epicId;
+    private int epicId;
 
-    public Subtask(String taskName, String description, int epicId) {
+    public Subtask(int epicId, String taskName, String description) {
         super(taskName, description);
         this.epicId = epicId;
     }
 
-    public Subtask(String taskName, String description, int id, Status status, int epicId) {
-        super(taskName, description, id, status);
+    public Subtask(int epicId, int id, String taskName, String description, Status status) {
+        super(id, taskName, description, status);
         this.epicId = epicId;
     }
 
@@ -17,9 +17,13 @@ public class Subtask extends Task {
         return epicId;
     }
 
+    public void setEpicId(int epicId) {
+        this.epicId = epicId;
+    }
+
     @Override
     public String toString() {
-        return "sprint4.tasks.Subtask{" +
+        return "sprint4.models.Subtask{" +
                 "epicId='" + epicId + '\'' +
                 ", taskName='" + getTaskName() + '\'' +
                 ", description='" + getDescription() + '\'' +

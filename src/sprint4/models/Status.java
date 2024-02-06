@@ -1,4 +1,4 @@
-package sprint4.tasks;
+package sprint4.models;
 
 public enum Status {
     NEW,

@@ -1,38 +1,47 @@
-package sprint4.tasks;
+package sprint4.models;
+
+import sprint4.managers.TaskManager;
 
 import java.util.Objects;
 
 public class Task {
-    private final String taskName;
-    private final String description;
     private final Integer id;
+    private String taskName;
+    private String description;
     private Status status;
 
     public Task(String taskName, String description) {
+        this.id = TaskManager.createId();
         this.taskName = taskName;
         this.description = description;
-        this.id = TaskManager.createId();
         this.status = Status.NEW;
     }
 
-    public Task(String taskName, String description, int id, Status status) {
+    public Task(int id, String taskName, String description, Status status) {
         this.taskName = taskName;
         this.description = description;
         this.id = id;
         this.status = status;
     }
 
+    public Integer getId() {
+        return id;
+    }
 
     public String getTaskName() {
         return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public int getId() {
-        return id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Status getStatus() {
@@ -58,7 +67,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "sprint4.tasks.Task{" +
+        return "sprint4.models.Task{" +
                 "taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +

@@ -1,8 +1,12 @@
-package sprint4.tasks;
+package sprint4.managers;
+
+import sprint4.models.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+
+import static sprint4.models.Status.*;
 
 public class TaskManager {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
@@ -14,15 +18,16 @@ public class TaskManager {
         id += 1;
         return id;
     }
-    public void rmTasks() {
+
+    public void removeTasks() {
         tasks.clear();
     }
 
-    public void rmSubtasks() {
+    public void removeSubtasks() {
         subtasks.clear();
     }
 
-    public void rmEpics() {
+    public void removeEpics() {
         subtasks.clear();
         epics.clear();
     }
@@ -45,29 +50,31 @@ public class TaskManager {
 
     public void createSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
-        epics.get(subtask.getEpicId()).addSubtask(subtask.getId());
+        epics.get(subtask.getEpicId()).getSubtasks().add(subtask.getId());
     }
 
     public void createEpic(Epic epic) {
         epics.put(epic.getId(), epic);
     }
 
-    public void rmTask(int id) {
+    public void removeTask(int id) {
         tasks.remove(id);
     }
 
-    public void rmSubtask(int id) {
-        epics.get((subtasks.get(id).getEpicId())).removeSubById(id);
+    public void removeSubtask(int id) {
+        Epic epic = epics.get((subtasks.get(id).getEpicId()));
+        epic.getSubtasks().remove(id);
         subtasks.remove(id);
+        epic.setStatus(calcStatus(epic));
     }
 
-    public void rmEpic(int id) {
+    public void removeEpic(int id) {
         ArrayList<Integer> epicValues = epics.get(id).getSubtasks();
         for (Integer value : epicValues) {
             subtasks.remove(value);
         }
         epics.remove(id);
-        }
+    }
 
 
     public void updateTask(Task task) {
@@ -75,29 +82,25 @@ public class TaskManager {
     }
 
     public void updateSubtask(Subtask subtask) {
-        epics.get((subtask.getEpicId())).removeSubById(subtask.getId());
-        epics.get(subtask.getEpicId()).getSubtasks().add(subtask.getId());
-        epics.put(epics.get(subtask.getEpicId()).getId(), epics.get(subtask.getEpicId()));
+        Epic epic = epics.get(subtask.getEpicId());
+        epic.getSubtasks().remove(subtask.getId());
+        epic.getSubtasks().add(subtask.getId());
+        epics.put(epic.getId(), epic);
         subtasks.put(subtask.getId(), subtask);
-        ArrayList<Integer> subtasksValue = epics.get(subtask.getEpicId()).getSubtasks();
-        ArrayList<Subtask> subtasksEpics = new ArrayList<>();
-        for (Integer subtaskValue : subtasksValue) {
-            subtasksEpics.add(subtasks.get(subtaskValue));
-        }
-        epics.get(subtask.getEpicId()).calcStatus(subtasksEpics);
+        epic.setStatus(calcStatus(epic));
     }
 
     public void updateEpic(Epic epic) {
         epic.setSubtasks((epics.get(epic.getId())).getSubtasks());
-        epic.calcStatus((ArrayList<Subtask>) subtasks.values());
+        epic.setStatus(calcStatus(epic));
         epics.put(epic.getId(), epic);
     }
 
     public ArrayList<Subtask> getEpicSubtasks(Epic epic) {
         ArrayList<Integer> subtasksId = epics.get(epic.getId()).getSubtasks();
         ArrayList<Subtask> subtasks = new ArrayList<>();
-         for (Integer subtask : subtasksId) {
-             subtasks.add(this.subtasks.get(subtask));
+        for (Integer subtask : subtasksId) {
+            subtasks.add(this.subtasks.get(subtask));
         }
         return subtasks;
     }
@@ -112,5 +115,30 @@ public class TaskManager {
 
     public Collection<Epic> getEpics() {
         return epics.values();
+    }
+
+    private Status calcStatus(Epic epic) {
+        boolean statusNew = false;
+        boolean statusDone = false;
+
+        for (Integer idTask : epic.getSubtasks()) {
+            Subtask subtask = this.subtasks.get(idTask);
+            Status curStatus = subtask.getStatus();
+            if (curStatus == IN_PROGRESS) {
+                return IN_PROGRESS;
+            } else if (curStatus == NEW) {
+                statusNew = true;
+            } else if (curStatus == DONE) {
+                statusDone = true;
+            }
+            if (statusNew && statusDone) {
+                return IN_PROGRESS;
+            }
+        }
+        if (statusDone) {
+            return DONE;
+        } else {
+            return NEW;
+        }
     }
 }

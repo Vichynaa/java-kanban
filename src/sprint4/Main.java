@@ -1,4 +1,6 @@
-package sprint4.test;
+package sprint4;
+
+import sprint4.tests.Tests;
 
 public class Main {
 
