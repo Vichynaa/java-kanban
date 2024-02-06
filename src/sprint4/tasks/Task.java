@@ -1,16 +1,17 @@
-import java.util.HashMap;
+package sprint4.tasks;
+
 import java.util.Objects;
 
 public class Task {
-    protected String taskName;
-    protected String description;
-    protected int id;
-    protected Status status;
+    private final String taskName;
+    private final String description;
+    private final Integer id;
+    private Status status;
 
     public Task(String taskName, String description) {
         this.taskName = taskName;
         this.description = description;
-        this.id = IdUtils.createId();
+        this.id = TaskManager.createId();
         this.status = Status.NEW;
     }
 
@@ -22,8 +23,24 @@ public class Task {
     }
 
 
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -41,7 +58,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "sprint4.tasks.Task{" +
                 "taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
