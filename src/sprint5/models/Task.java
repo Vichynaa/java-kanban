@@ -1,6 +1,6 @@
-package sprint4.models;
+package sprint5.models;
 
-import sprint4.managers.TaskManager;
+import sprint5.managers.InMemoryTaskManager;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ public class Task {
     private Status status;
 
     public Task(String taskName, String description) {
-        this.id = TaskManager.createId();
+        this.id = InMemoryTaskManager.createId();
         this.taskName = taskName;
         this.description = description;
         this.status = Status.NEW;

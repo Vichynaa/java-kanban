@@ -1,4 +1,4 @@
-package sprint4.models;
+package sprint5.models;
 
 import java.util.ArrayList;
 
@@ -19,6 +19,10 @@ public class Epic extends Task {
 
     public void setSubtasks(ArrayList<Integer> subtasks) {
         this.subtasks = subtasks;
+    }
+
+    public void setSubtask(Subtask subtask) {
+        this.subtasks.add(subtask.getId());
     }
 
     @Override
