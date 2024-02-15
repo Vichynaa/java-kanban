@@ -1,9 +1,10 @@
 package sprint5.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subtasks = new ArrayList<>();
+    private List<Integer> subtasks = new ArrayList<>();
 
     public Epic(String taskName, String description) {
         super(taskName, description);
@@ -14,7 +15,7 @@ public class Epic extends Task {
     }
 
     public ArrayList<Integer> getSubtasks() {
-        return subtasks;
+        return new ArrayList<>(subtasks);
     }
 
     public void setSubtasks(ArrayList<Integer> subtasks) {

@@ -4,14 +4,16 @@ import sprint5.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static sprint5.models.Status.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HistoryManager history = Managers.getDefaultHistory();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final HistoryManager history = (new Managers()).getDefaultHistory();
     private static int id = 0;
 
     public static int createId() {
@@ -117,9 +119,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Subtask> getEpicSubtasks(Epic epic) {
-        ArrayList<Integer> subtasksId = epics.get(epic.getId()).getSubtasks();
-        ArrayList<Subtask> subtasks = new ArrayList<>();
+    public List<Subtask> getEpicSubtasks(Epic epic) {
+        List<Integer> subtasksId = epics.get(epic.getId()).getSubtasks();
+        List<Subtask> subtasks = new ArrayList<>();
         for (Integer subtask : subtasksId) {
             subtasks.add(this.subtasks.get(subtask));
         }
@@ -127,22 +129,22 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getTasks() {
+    public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
 
     @Override
-    public ArrayList<Subtask> getSubtasks() {
+    public List<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
     @Override
-    public ArrayList<Epic> getEpics() {
+    public List<Epic> getEpics() {
         return new ArrayList<>(epics.values());
     }
 
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return new ArrayList<>(history.getHistory());
     }
 

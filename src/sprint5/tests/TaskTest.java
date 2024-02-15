@@ -1,5 +1,6 @@
 package sprint5.tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sprint5.managers.HistoryManager;
 import sprint5.managers.Managers;
@@ -13,12 +14,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
 
-    TaskManager taskManager = Managers.getDefault();
-    HistoryManager historyManager = Managers.getDefaultHistory();
-    Task task = new Task("Test addNewTask", "Test addNewTask description");
+    TaskManager taskManager;
+    HistoryManager historyManager;
+    Task task;
+
+    @BeforeEach
+    void BeforeEach() {
+        taskManager = (new Managers()).getDefault();
+        historyManager = (new Managers()).getDefaultHistory();
+        task = new Task("Test addNewTask", "Test addNewTask description");
+    }
 
     @Test
-    public void tasksShouldBeEqualsIfSameId() {
+    void tasksShouldBeEqualsIfSameId() {
         Task task2 = new Task(1, "testTask2", "testTask2", Status.IN_PROGRESS);
         assertEquals(task, task2);
     }

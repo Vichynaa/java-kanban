@@ -1,11 +1,11 @@
 package sprint5.managers;
 
 public class Managers {
-    public static InMemoryTaskManager getDefault() {
+    public InMemoryTaskManager getDefault() {
         return new InMemoryTaskManager();
     }
 
-    public static InMemoryHistoryManager getDefaultHistory() {
+    public InMemoryHistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
 }

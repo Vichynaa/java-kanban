@@ -1,5 +1,6 @@
 package sprint5.tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sprint5.managers.Managers;
 import sprint5.managers.TaskManager;
@@ -14,12 +15,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SubtaskTest {
 
-    TaskManager taskManager = Managers.getDefault();
+    private TaskManager taskManager;
+
+    @BeforeEach
+    void BeforeEach() {
+        taskManager = (new Managers()).getDefault();
+    }
 
     @Test
-    public void subtasksShouldBeEqualsIfSameId() {
+    void subtasksShouldBeEqualsIfSameId() {
         Task subtask1 = new Task("testSubtask1", "testSubtask1");
-        Task subtask2 = new Task(1, "testSubtask2", "testSubtask2", Status.IN_PROGRESS);
+        Task subtask2 = new Task(3, "testSubtask2", "testSubtask2", Status.IN_PROGRESS);
         assertEquals(subtask1, subtask2);
     }
 

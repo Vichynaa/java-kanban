@@ -3,12 +3,13 @@ package sprint5.managers;
 import sprint5.models.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager{
-    private final ArrayList<Task> history = new ArrayList<>(10);
+    private final List<Task> history = new ArrayList<>(10);
 
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return new ArrayList<>(history);
     }
 

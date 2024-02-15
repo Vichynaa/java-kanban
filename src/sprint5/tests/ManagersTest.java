@@ -1,6 +1,7 @@
 package sprint5.tests;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sprint5.managers.InMemoryHistoryManager;
 import sprint5.managers.InMemoryTaskManager;
@@ -11,21 +12,29 @@ import sprint5.models.Subtask;
 import sprint5.models.Task;
 
 public class ManagersTest {
-    InMemoryTaskManager taskManager = Managers.getDefault();
-    InMemoryHistoryManager historyManager = Managers.getDefaultHistory();
-    Task task1 = new Task("task1", "task1");
-    Epic epic1 = new Epic("epic1", "epic1");
-    Subtask sub1 = new Subtask(2, "sub1", "sub1");
+    private InMemoryTaskManager taskManager = (new Managers()).getDefault();
+    private InMemoryHistoryManager historyManager = (new Managers()).getDefaultHistory();
+    private Task task1;
+    private Epic epic1;
+    private Subtask sub1;
 
+    @BeforeEach
+    void BeforeEach() {
+        taskManager = (new Managers()).getDefault();
+        historyManager = (new Managers()).getDefaultHistory();
+        task1 = new Task("task1", "task1");
+        epic1 = new Epic("epic1", "epic1");
+        sub1 = new Subtask(2, "sub1", "sub1");
+    }
 
     @Test
-    public void checkManagersClass() {
+    void checkManagersClass() {
         Assertions.assertNotNull(taskManager, "Метод getDefault() работает не верно");
         Assertions.assertNotNull(historyManager, "Метод getDefaultHistory() работает не верно");
     }
 
     @Test
-    public void checkFunctionsInMemoryTaskManager() {
+    void checkFunctionsInMemoryTaskManager() {
         taskManager.createTask(task1);
         Assertions.assertEquals(taskManager.getTasks().getFirst(), task1);
 
@@ -56,7 +65,7 @@ public class ManagersTest {
     }
 
     @Test
-    public void checkFunctionsInMemoryHistoryManager() {
+    void checkFunctionsInMemoryHistoryManager() {
         taskManager.createTask(task1);
         taskManager.createEpic(epic1);
         taskManager.getTask(4);

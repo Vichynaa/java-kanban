@@ -1,5 +1,7 @@
 package sprint5.tests;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sprint5.managers.InMemoryTaskManager;
 import sprint5.managers.Managers;
@@ -11,14 +13,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class EpicTest {
-    InMemoryTaskManager taskManager = Managers.getDefault();
+    private InMemoryTaskManager taskManager;
 
+    @BeforeEach
+    void BeforeEach() {
+        taskManager = (new Managers()).getDefault();
+    }
 
     @Test
-    public void epicsShouldBeEqualsIfSameId() {
+    void epicsShouldBeEqualsIfSameId() {
         Epic epic1 = new Epic("testEpic1", "testEpic1");
         Epic epic2 = new Epic(1,"testEpic2", "testEpic2");
-        assertEquals(epic1, epic2);
+        assertEquals(epic2, epic1);
     }
 
     @Test
@@ -31,7 +37,7 @@ class EpicTest {
         assertNotNull(savedEpic, "Эпик не найдена.");
         assertEquals(epic, savedEpic, "Эпик не совпадают.");
 
-        final ArrayList<Epic> epics = taskManager.getEpics();
+        final ArrayList<Epic> epics = (ArrayList<Epic>) taskManager.getEpics();
 
         assertNotNull(epics, "Эпик не возвращаются.");
         assertEquals(1, epics.size(), "Неверное количество Эпиков.");

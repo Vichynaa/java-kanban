@@ -4,8 +4,8 @@ import sprint5.models.Epic;
 import sprint5.models.Subtask;
 import sprint5.models.Task;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public interface TaskManager {
     void removeTasks();
@@ -38,7 +38,7 @@ public interface TaskManager {
 
     void updateEpic(Epic epic);
 
-    ArrayList<Subtask> getEpicSubtasks(Epic epic);
+    List<Subtask> getEpicSubtasks(Epic epic);
 
     Collection<Task> getTasks();
 
