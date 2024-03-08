@@ -12,14 +12,15 @@ import sprint.models.Subtask;
 import sprint.models.Task;
 
 public class ManagersTest {
-    private InMemoryTaskManager taskManager = (new Managers()).getDefault();
-    private InMemoryHistoryManager historyManager = (new Managers()).getDefaultHistory();
+    private InMemoryTaskManager taskManager;
+    private InMemoryHistoryManager historyManager;
     private Task task1;
     private Epic epic1;
     private Subtask sub1;
 
     @BeforeEach
     void beforeEach() {
+        InMemoryTaskManager.setId(0);
         taskManager = (new Managers()).getDefault();
         historyManager = (new Managers()).getDefaultHistory();
         task1 = new Task("task1", "task1");
@@ -68,10 +69,10 @@ public class ManagersTest {
     void checkFunctionsInMemoryHistoryManager() {
         taskManager.createTask(task1);
         taskManager.createEpic(epic1);
-        taskManager.getTask(4);
-        taskManager.getEpic(5);
+        taskManager.getTask(1);
+        taskManager.getEpic(2);
         Assertions.assertEquals(taskManager.getHistory().get(0), task1);
-        taskManager.getTask(4);
+        taskManager.getTask(1);
         Assertions.assertEquals(taskManager.getHistory().get(1), task1);
     }
 }

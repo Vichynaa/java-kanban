@@ -15,7 +15,8 @@ class EpicTest {
     private InMemoryTaskManager taskManager;
 
     @BeforeEach
-    void beforeEach() {
+    void BeforeEach() {
+        InMemoryTaskManager.setId(0);
         taskManager = (new Managers()).getDefault();
     }
 

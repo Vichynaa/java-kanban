@@ -148,6 +148,10 @@ public class InMemoryTaskManager implements TaskManager {
         return history.getHistory();
     }
 
+    public static void setId(int id) {
+        InMemoryTaskManager.id = id;
+    }
+
     private Status calcStatus(Epic epic) {
         boolean statusNew = false;
         boolean statusDone = false;
