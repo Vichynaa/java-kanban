@@ -1,4 +1,4 @@
-package tests;
+package sprint.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
