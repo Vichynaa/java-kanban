@@ -1,11 +1,10 @@
-package sprint5.tests;
+package sprint.tests;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sprint5.managers.InMemoryTaskManager;
-import sprint5.managers.Managers;
-import sprint5.models.Epic;
+import sprint.managers.InMemoryTaskManager;
+import sprint.managers.Managers;
+import sprint.models.Epic;
 
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ class EpicTest {
     private InMemoryTaskManager taskManager;
 
     @BeforeEach
-    void BeforeEach() {
+    void beforeEach() {
         taskManager = (new Managers()).getDefault();
     }
 

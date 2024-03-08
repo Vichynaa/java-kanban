@@ -1,7 +1,7 @@
-package sprint5.managers;
+package sprint.managers;
 
-import sprint5.models.LinkedHashMapHandMade;
-import sprint5.models.Task;
+import sprint.models.LinkedHashMapHandMade;
+import sprint.models.Task;
 
 import java.util.*;
 

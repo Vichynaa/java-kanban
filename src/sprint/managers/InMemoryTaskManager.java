@@ -1,13 +1,13 @@
-package sprint5.managers;
+package sprint.managers;
 
-import sprint5.models.*;
+import sprint.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static sprint5.models.Status.*;
+import static sprint.models.Status.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Task> tasks = new HashMap<>();

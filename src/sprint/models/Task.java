@@ -1,6 +1,6 @@
-package sprint5.models;
+package sprint.models;
 
-import sprint5.managers.InMemoryTaskManager;
+import sprint.managers.InMemoryTaskManager;
 
 import java.util.Objects;
 

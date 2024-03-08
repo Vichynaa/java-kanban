@@ -1,12 +1,12 @@
-package sprint5.tests;
+package sprint.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sprint5.managers.HistoryManager;
-import sprint5.managers.Managers;
-import sprint5.managers.TaskManager;
-import sprint5.models.Status;
-import sprint5.models.Task;
+import sprint.managers.HistoryManager;
+import sprint.managers.Managers;
+import sprint.managers.TaskManager;
+import sprint.models.Status;
+import sprint.models.Task;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ class TaskTest {
     Task task;
 
     @BeforeEach
-    void BeforeEach() {
+    void beforeEach() {
         taskManager = (new Managers()).getDefault();
         historyManager = (new Managers()).getDefaultHistory();
         task = new Task("Test addNewTask", "Test addNewTask description");

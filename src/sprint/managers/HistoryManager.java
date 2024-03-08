@@ -1,6 +1,6 @@
-package sprint5.managers;
+package sprint.managers;
 
-import sprint5.models.Task;
+import sprint.models.Task;
 import java.util.List;
 
 public interface HistoryManager {

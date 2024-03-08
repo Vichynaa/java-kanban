@@ -1,4 +1,4 @@
-package sprint5.models;
+package sprint.models;
 
 public class Subtask extends Task {
     private int epicId;

@@ -1,4 +1,4 @@
-package sprint5.models;
+package sprint.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
