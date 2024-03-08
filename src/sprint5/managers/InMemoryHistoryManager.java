@@ -1,28 +1,23 @@
 package sprint5.managers;
 
+import sprint5.models.LinkedHashMapHandMade;
 import sprint5.models.Task;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager{
-    private final List<Task> history = new ArrayList<>(10);
+    private final LinkedHashMapHandMade history = new LinkedHashMapHandMade();
 
     @Override
     public List<Task> getHistory() {
-        return new ArrayList<>(history);
+        return new ArrayList<>(history.getTasks());
     }
 
     @Override
     public void add(Task object) {
-        if (10 == history.size()) {
-            history.removeFirst();
-            history.add(object);
-        }
-        else if (object != null){
-            history.add(object);
-        }
+        history.linkLast(object);
     }
-
-
 }
+
+
+

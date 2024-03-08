@@ -59,9 +59,9 @@ public class ManagersTest {
         taskManager.removeTask(1);
         taskManager.removeEpic(2);
 
-        Assertions.assertNull(taskManager.getTask(1));
-        Assertions.assertNull(taskManager.getEpic(2));
-        Assertions.assertNull(taskManager.getSubtask(3));
+        Assertions.assertThrows(NullPointerException.class, () -> taskManager.getTask(1));
+        Assertions.assertThrows(NullPointerException.class, () -> taskManager.getEpic(2));
+        Assertions.assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3));
     }
 
     @Test
@@ -71,5 +71,7 @@ public class ManagersTest {
         taskManager.getTask(4);
         taskManager.getEpic(5);
         Assertions.assertEquals(taskManager.getHistory().get(0), task1);
+        taskManager.getTask(4);
+        Assertions.assertEquals(taskManager.getHistory().get(1), task1);
     }
 }

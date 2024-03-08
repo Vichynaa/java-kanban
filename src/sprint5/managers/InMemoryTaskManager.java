@@ -145,7 +145,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public List<Task> getHistory() {
-        return new ArrayList<>(history.getHistory());
+        return history.getHistory();
     }
 
     private Status calcStatus(Epic epic) {
