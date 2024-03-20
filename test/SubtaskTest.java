@@ -1,13 +1,12 @@
-package sprint5.tests;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sprint5.managers.Managers;
-import sprint5.managers.TaskManager;
-import sprint5.models.Epic;
-import sprint5.models.Status;
-import sprint5.models.Subtask;
-import sprint5.models.Task;
+import sprint.managers.InMemoryTaskManager;
+import sprint.managers.Managers;
+import sprint.managers.TaskManager;
+import sprint.models.Epic;
+import sprint.models.Status;
+import sprint.models.Subtask;
+import sprint.models.Task;
 
 import java.util.ArrayList;
 
@@ -18,14 +17,15 @@ class SubtaskTest {
     private TaskManager taskManager;
 
     @BeforeEach
-    void BeforeEach() {
+    void beforeEach() {
+        InMemoryTaskManager.setId(0);
         taskManager = (new Managers()).getDefault();
     }
 
     @Test
     void subtasksShouldBeEqualsIfSameId() {
         Task subtask1 = new Task("testSubtask1", "testSubtask1");
-        Task subtask2 = new Task(3, "testSubtask2", "testSubtask2", Status.IN_PROGRESS);
+        Task subtask2 = new Task(1, "testSubtask2", "testSubtask2", Status.IN_PROGRESS);
         assertEquals(subtask1, subtask2);
     }
 

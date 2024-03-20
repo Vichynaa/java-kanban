@@ -1,25 +1,24 @@
-package sprint5.tests;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sprint5.managers.InMemoryHistoryManager;
-import sprint5.managers.InMemoryTaskManager;
-import sprint5.managers.Managers;
-import sprint5.models.Epic;
-import sprint5.models.Status;
-import sprint5.models.Subtask;
-import sprint5.models.Task;
+import sprint.managers.InMemoryHistoryManager;
+import sprint.managers.InMemoryTaskManager;
+import sprint.managers.Managers;
+import sprint.models.Epic;
+import sprint.models.Status;
+import sprint.models.Subtask;
+import sprint.models.Task;
 
 public class ManagersTest {
-    private InMemoryTaskManager taskManager = (new Managers()).getDefault();
-    private InMemoryHistoryManager historyManager = (new Managers()).getDefaultHistory();
+    private InMemoryTaskManager taskManager;
+    private InMemoryHistoryManager historyManager;
     private Task task1;
     private Epic epic1;
     private Subtask sub1;
 
     @BeforeEach
-    void BeforeEach() {
+    void beforeEach() {
+        InMemoryTaskManager.setId(0);
         taskManager = (new Managers()).getDefault();
         historyManager = (new Managers()).getDefaultHistory();
         task1 = new Task("task1", "task1");
@@ -59,17 +58,19 @@ public class ManagersTest {
         taskManager.removeTask(1);
         taskManager.removeEpic(2);
 
-        Assertions.assertNull(taskManager.getTask(1));
-        Assertions.assertNull(taskManager.getEpic(2));
-        Assertions.assertNull(taskManager.getSubtask(3));
+        Assertions.assertThrows(NullPointerException.class, () -> taskManager.getTask(1));
+        Assertions.assertThrows(NullPointerException.class, () -> taskManager.getEpic(2));
+        Assertions.assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3));
     }
 
     @Test
     void checkFunctionsInMemoryHistoryManager() {
         taskManager.createTask(task1);
         taskManager.createEpic(epic1);
-        taskManager.getTask(4);
-        taskManager.getEpic(5);
+        taskManager.getTask(1);
+        taskManager.getEpic(2);
         Assertions.assertEquals(taskManager.getHistory().get(0), task1);
+        taskManager.getTask(1);
+        Assertions.assertEquals(taskManager.getHistory().get(1), task1);
     }
 }

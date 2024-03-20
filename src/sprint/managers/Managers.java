@@ -1,4 +1,4 @@
-package sprint5.managers;
+package sprint.managers;
 
 public class Managers {
     public InMemoryTaskManager getDefault() {

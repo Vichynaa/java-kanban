@@ -1,4 +1,4 @@
-package sprint5.models;
+package sprint.models;
 
 public enum Status {
     NEW,

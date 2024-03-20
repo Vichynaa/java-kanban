@@ -1,8 +1,8 @@
-package sprint5.managers;
+package sprint.managers;
 
-import sprint5.models.Epic;
-import sprint5.models.Subtask;
-import sprint5.models.Task;
+import sprint.models.Epic;
+import sprint.models.Subtask;
+import sprint.models.Task;
 
 import java.util.Collection;
 import java.util.List;
