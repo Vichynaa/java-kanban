@@ -19,7 +19,7 @@ public class ManagersTest {
     @BeforeEach
     void beforeEach() {
         InMemoryTaskManager.setId(0);
-        taskManager = (new Managers()).getDefault();
+        taskManager = new InMemoryTaskManager();
         historyManager = (new Managers()).getDefaultHistory();
         task1 = new Task("task1", "task1");
         epic1 = new Epic("epic1", "epic1");

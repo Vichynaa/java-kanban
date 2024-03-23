@@ -20,7 +20,7 @@ class TaskTest {
     @BeforeEach
     void beforeEach() {
         InMemoryTaskManager.setId(0);
-        taskManager = (new Managers()).getDefault();
+        taskManager = new InMemoryTaskManager();
         historyManager = (new Managers()).getDefaultHistory();
         task = new Task("Test addNewTask", "Test addNewTask description");
     }

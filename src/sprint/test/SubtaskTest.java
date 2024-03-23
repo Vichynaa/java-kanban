@@ -19,7 +19,7 @@ class SubtaskTest {
     @BeforeEach
     void beforeEach() {
         InMemoryTaskManager.setId(0);
-        taskManager = (new Managers()).getDefault();
+        taskManager = new InMemoryTaskManager();
     }
 
     @Test
