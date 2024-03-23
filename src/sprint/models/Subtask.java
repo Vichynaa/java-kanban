@@ -21,6 +21,11 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    public String csvString() {
+        return String.format("%d,%s,%s,%s,%s,%d", this.getId(), Type.SUBTASK, this.getTaskName(),
+                this.getStatus(), this.getDescription(), this.getEpicId());
+    }
+
     @Override
     public String toString() {
         return "sprint4.models.Subtask{" +
