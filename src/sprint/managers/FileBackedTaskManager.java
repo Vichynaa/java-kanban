@@ -12,12 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final static String dataPath = "data.txt";
-    private final static String historyPath = "history.txt";
-
-    private final static String csv = "id,type,name,status,description,epic\n";
-
-
+    private final String dataPath = "data.txt";
+    private static final String historyPath = "history.txt";
 
 
     @Override
@@ -97,6 +93,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() {
         newFile();
+        String csv = "id,type,name,status,description,epic\n";
         try (BufferedWriter dataWriter = new BufferedWriter(new FileWriter(dataPath, StandardCharsets.UTF_8))) {
             dataWriter.write(csv);
             for (Task task : super.tasks.values()) {
