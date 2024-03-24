@@ -114,8 +114,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             for (Task task : super.history.getHistory()) {
                 historyWriter.write(task.csvString() + "\n");
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ManagerSaveException("Ошибка - сохранения файла history.txt");
         }
     }
@@ -140,16 +139,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             for (Integer id : historyFromString(Files.readString(new File(historyPath).toPath()))) {
                 if (fileBackedTaskManager.tasks.containsKey(id)) {
                     fileBackedTaskManager.history.add(fileBackedTaskManager.getTask(id));
-                }
-                else if (fileBackedTaskManager.epics.containsKey(id)) {
+                } else if (fileBackedTaskManager.epics.containsKey(id)) {
                     fileBackedTaskManager.history.add(fileBackedTaskManager.getEpic(id));
-                }
-                else {
+                } else {
                     fileBackedTaskManager.history.add(fileBackedTaskManager.getSubtask(id));
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ManagerSaveException("Ошибка при загрузке данных");
         }
         return fileBackedTaskManager;
@@ -161,8 +157,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             if (!Files.exists(path)) {
                 Files.createFile(path);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ManagerSaveException("Ошибка создания файла");
         }
     }
