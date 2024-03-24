@@ -69,6 +69,7 @@ public class Task {
         return String.format("%d,%s,%s,%s,%s", this.getId(), Type.TASK, this.getTaskName(),
                 this.getStatus(), this.getDescription());
     }
+
     @Override
     public String toString() {
         return "sprint4.models.Task{" +
