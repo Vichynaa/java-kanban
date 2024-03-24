@@ -9,10 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.List;
-=======
->>>>>>> 06f723c81fbff3298dca296194359be31bffff2c
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final static String dataPath = "data.txt";
