@@ -1,3 +1,5 @@
+package model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sprint.managers.HistoryManager;
@@ -13,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
 
-    TaskManager taskManager;
-    HistoryManager historyManager;
-    Task task;
+    private TaskManager taskManager;
+    private HistoryManager historyManager;
+    private Task task;
 
     @BeforeEach
     void beforeEach() {

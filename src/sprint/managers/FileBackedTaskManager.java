@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final String dataPath = "data.txt";
-    private static final String historyPath = "history.txt";
+    private static final String DATA_PATH = "data.txt";
+    private static final String HISTORY_PATH = "history.txt";
 
 
     @Override
@@ -94,7 +94,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void save() {
         newFile();
         String csv = "id,type,name,status,description,epic\n";
-        try (BufferedWriter dataWriter = new BufferedWriter(new FileWriter(dataPath, StandardCharsets.UTF_8))) {
+        try (BufferedWriter dataWriter = new BufferedWriter(new FileWriter(DATA_PATH, StandardCharsets.UTF_8))) {
             dataWriter.write(csv);
             for (Task task : super.tasks.values()) {
                 dataWriter.write(task.csvString() + "\n");
@@ -109,7 +109,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new ManagerSaveException("Ошибка - сохранения файла data.txt");
         }
 
-        try (BufferedWriter historyWriter = new BufferedWriter(new FileWriter(historyPath, StandardCharsets.UTF_8))) {
+        try (BufferedWriter historyWriter = new BufferedWriter(new FileWriter(HISTORY_PATH, StandardCharsets.UTF_8))) {
             historyWriter.write(csv);
             for (Task task : super.history.getHistory()) {
                 historyWriter.write(task.csvString() + "\n");
@@ -136,7 +136,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         break;
                 }
             }
-            for (Integer id : historyFromString(Files.readString(new File(historyPath).toPath()))) {
+            for (Integer id : historyFromString(Files.readString(new File(HISTORY_PATH).toPath()))) {
                 if (fileBackedTaskManager.tasks.containsKey(id)) {
                     fileBackedTaskManager.history.add(fileBackedTaskManager.getTask(id));
                 } else if (fileBackedTaskManager.epics.containsKey(id)) {
@@ -152,7 +152,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private void newFile() {
-        Path path = Paths.get(dataPath);
+        Path path = Paths.get(DATA_PATH);
         try {
             if (!Files.exists(path)) {
                 Files.createFile(path);
