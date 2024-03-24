@@ -63,8 +63,7 @@ public class FileBackedTaskManagerTest {
             assertEquals(loadCheck.getHistory().getFirst(), new Task(1, "1", "1", Status.NEW));
             Files.delete(fileDataPath);
             Files.delete(fileHistoryPath);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
         }
     }
