@@ -34,6 +34,7 @@ public class Epic extends Task {
         return String.format("%d,%s,%s,%s,%s", this.getId(), Type.EPIC, this.getTaskName(),
                 this.getStatus(), this.getDescription());
     }
+
     @Override
     public String toString() {
         return "sprint4.models.Epic{" +
