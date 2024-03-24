@@ -1,6 +1,5 @@
 package sprint.managers;
 
-import sprint.exceptions.ManagerSaveException;
 import sprint.models.*;
 
 import java.util.ArrayList;
