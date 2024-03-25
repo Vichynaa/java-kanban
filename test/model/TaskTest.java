@@ -1,3 +1,5 @@
+package model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sprint.managers.HistoryManager;
@@ -13,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
 
-    TaskManager taskManager;
-    HistoryManager historyManager;
-    Task task;
+    private TaskManager taskManager;
+    private HistoryManager historyManager;
+    private Task task;
 
     @BeforeEach
     void beforeEach() {
         InMemoryTaskManager.setId(0);
-        taskManager = (new Managers()).getDefault();
+        taskManager = new InMemoryTaskManager();
         historyManager = (new Managers()).getDefaultHistory();
         task = new Task("Test addNewTask", "Test addNewTask description");
     }

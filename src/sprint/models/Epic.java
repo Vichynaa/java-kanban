@@ -14,6 +14,10 @@ public class Epic extends Task {
         super(epicId, taskName, description, Status.NEW);
     }
 
+    public Epic(int epicId, String taskName, String description, Status status) {
+        super(epicId, taskName, description, status);
+    }
+
     public ArrayList<Integer> getSubtasks() {
         return new ArrayList<>(subtasks);
     }
@@ -24,6 +28,11 @@ public class Epic extends Task {
 
     public void setSubtask(Subtask subtask) {
         this.subtasks.add(subtask.getId());
+    }
+
+    public String csvString() {
+        return String.format("%d,%s,%s,%s,%s", this.getId(), Type.EPIC, this.getTaskName(),
+                this.getStatus(), this.getDescription());
     }
 
     @Override

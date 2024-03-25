@@ -10,11 +10,11 @@ import java.util.Map;
 import static sprint.models.Status.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final HistoryManager history = (new Managers()).getDefaultHistory();
-    private static int id = 0;
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final HistoryManager history = (new Managers()).getDefaultHistory();
+    protected static int id = 0;
 
     public static int createId() {
         id += 1;
