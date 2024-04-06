@@ -1,7 +1,8 @@
+package model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sprint.managers.InMemoryTaskManager;
-import sprint.managers.Managers;
 import sprint.managers.TaskManager;
 import sprint.models.Epic;
 import sprint.models.Status;
@@ -19,7 +20,7 @@ class SubtaskTest {
     @BeforeEach
     void beforeEach() {
         InMemoryTaskManager.setId(0);
-        taskManager = (new Managers()).getDefault();
+        taskManager = new InMemoryTaskManager();
     }
 
     @Test

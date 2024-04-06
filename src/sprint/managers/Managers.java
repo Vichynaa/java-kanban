@@ -2,7 +2,7 @@ package sprint.managers;
 
 public class Managers {
     public InMemoryTaskManager getDefault() {
-        return new InMemoryTaskManager();
+        return new FileBackedTaskManager();
     }
 
     public InMemoryHistoryManager getDefaultHistory() {
