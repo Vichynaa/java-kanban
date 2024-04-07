@@ -37,7 +37,8 @@ public class FileBackedTaskManagerTest {
             assertEquals(Files.readString(fileDataPath), "id,type,name,status,description,epic,duration,startTime\n", "Файлы data.txt должен создаваться после сохранения изменений");
             assertEquals(Files.readString(fileHistoryPath), "id,type,name,status,description,epic,duration,startTime\n", "Файлы historyFile.txt должен создаваться после сохранения изменений");
             Files.delete(fileDataPath);
-            Files.delete(fileHistoryPath);}, "Ошибка при сохранении файла");
+            Files.delete(fileHistoryPath);
+        }, "Ошибка при сохранении файла");
     }
 
     @Test
