@@ -93,8 +93,7 @@ public class Task {
     public LocalDateTime getEndTime() {
         if (startTime != null) {
             return startTime.plus(duration);
-        }
-        else {
+        } else {
             return null;
         }
     }
