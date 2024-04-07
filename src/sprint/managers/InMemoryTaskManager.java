@@ -1,11 +1,11 @@
 package sprint.managers;
 
+import sprint.exceptions.ValidateException;
 import sprint.models.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static sprint.models.Status.*;
 
@@ -60,13 +60,29 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createTask(Task task) {
-        tasks.put(task.getId(), task);
+        boolean taskValidator = getPrioritizedTasks().stream()
+                        .anyMatch(taskObject -> validate(taskObject, task));
+        if (!taskValidator) {
+            tasks.put(task.getId(), task);
+        }
+        else {
+            throw new ValidateException("Выполняется другая задача в это время");
+        }
     }
 
     @Override
     public void createSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-        epics.get(subtask.getEpicId()).setSubtask(subtask);
+        boolean subtaskValidator = getPrioritizedTasks().stream()
+                .anyMatch(taskObject -> validate(taskObject, subtask));
+        if (!subtaskValidator) {
+            subtasks.put(subtask.getId(), subtask);
+            epics.get(subtask.getEpicId()).setSubtask(subtask);
+            calcEpicTime(epics.get(subtask.getEpicId()));
+            epics.get(subtask.getEpicId()).setStatus(calcStatus(epics.get(subtask.getEpicId())));
+        }
+        else {
+            throw new ValidateException("Выполняется другая задача в это время");
+        }
     }
 
     @Override
@@ -85,6 +101,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.getSubtasks().remove(id);
         subtasks.remove(id);
         epic.setStatus(calcStatus(epic));
+        calcEpicTime(epic);
     }
 
     @Override
@@ -98,34 +115,55 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
-        tasks.put(task.getId(), task);
+        LocalDateTime taskTime = tasks.get(task.getId()).getStartTime();
+        tasks.get(task.getId()).setStartTime(null);
+        boolean taskUpdateValidator = getPrioritizedTasks().stream()
+                .anyMatch(taskObject -> validate(taskObject, task));
+        if (!taskUpdateValidator) {
+            tasks.put(task.getId(), task);
+        }
+        else {
+            tasks.get(task.getId()).setStartTime(taskTime);
+            throw new ValidateException("Выполняется другая задача в это время - обновление невозможно");
+        }
+
     }
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        Epic epic = epics.get(subtask.getEpicId());
-        epic.getSubtasks().remove(subtask.getId());
-        epic.getSubtasks().add(subtask.getId());
-        epics.put(epic.getId(), epic);
-        subtasks.put(subtask.getId(), subtask);
-        epic.setStatus(calcStatus(epic));
+        LocalDateTime subtaskTime = subtasks.get(subtask.getId()).getStartTime();
+        subtasks.get(subtask.getId()).setStartTime(null);
+        boolean subtaskUpdateValidator = getPrioritizedTasks().stream()
+                .anyMatch(taskObject -> validate(taskObject, subtask));
+        if (!subtaskUpdateValidator) {
+            Epic epic = epics.get(subtask.getEpicId());
+            epic.getSubtasks().remove(subtask.getId());
+            epic.getSubtasks().add(subtask.getId());
+            epics.put(epic.getId(), epic);
+            subtasks.put(subtask.getId(), subtask);
+            epic.setStatus(calcStatus(epic));
+            calcEpicTime(epic);
+        }
+        else {
+            subtasks.get(subtask.getId()).setStartTime(subtaskTime);
+            throw new ValidateException("Выполняется другая задача в это время - обновление невозможно");
+        }
     }
 
     @Override
     public void updateEpic(Epic epic) {
         epic.setSubtasks((epics.get(epic.getId())).getSubtasks());
         epic.setStatus(calcStatus(epic));
+        calcEpicTime(epic);
         epics.put(epic.getId(), epic);
     }
 
     @Override
     public List<Subtask> getEpicSubtasks(Epic epic) {
         List<Integer> subtasksId = epics.get(epic.getId()).getSubtasks();
-        List<Subtask> subtasks = new ArrayList<>();
-        for (Integer subtask : subtasksId) {
-            subtasks.add(this.subtasks.get(subtask));
-        }
-        return subtasks;
+        return subtasksId.stream()
+                .map(subtasks::get)
+                .toList();
     }
 
     @Override
@@ -152,6 +190,36 @@ public class InMemoryTaskManager implements TaskManager {
         InMemoryTaskManager.id = id;
     }
 
+    public boolean validate(Task task1, Task task2) {
+        LocalDateTime startTime1 = task1.getStartTime();
+        LocalDateTime endTime1 = task1.getEndTime();
+        LocalDateTime startTime2 = task2.getStartTime();
+        LocalDateTime endTime2 = task2.getEndTime();
+
+        if (startTime1 == null || endTime1 == null || startTime2 == null || endTime2 == null) {
+            return false;
+        }
+        return !(endTime1.isBefore(startTime2) || startTime1.isAfter(endTime2));
+    }
+
+    public TreeSet<Task> getPrioritizedTasks() {
+        Comparator<Task> comparator = Comparator.comparing(Task::getStartTime);
+        TreeSet<Task> priority = new TreeSet<>(comparator);
+        List<Task> tasks = getTasks().stream()
+                .filter(task -> task.getStartTime() != null)
+                .toList();
+        priority.addAll(tasks);
+        List<Subtask> subtasks = getSubtasks().stream()
+                .filter(subtask -> subtask.getStartTime() != null)
+                .toList();
+        priority.addAll(subtasks);
+        List<Epic> epics = getEpics().stream()
+                .filter(epic -> epic.getStartTime() != null)
+                .toList();
+        priority.addAll(epics);
+        return priority;
+    }
+
     private Status calcStatus(Epic epic) {
         boolean statusNew = false;
         boolean statusDone = false;
@@ -174,6 +242,27 @@ public class InMemoryTaskManager implements TaskManager {
             return DONE;
         } else {
             return NEW;
+        }
+    }
+
+    public void calcEpicTime(Epic epic) {
+        LocalDateTime startTime = epic.getSubtasks().stream()
+                .map(subtasks::get)
+                .map(Subtask::getStartTime)
+                .filter(Objects::nonNull)
+                .min(LocalDateTime::compareTo)
+                .orElse(null);
+
+        LocalDateTime endTime = epic.getSubtasks().stream()
+                .map(subtasks::get)
+                .map(Subtask::getEndTime)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
+        if (startTime != null && endTime != null) {
+            epic.setStartTime(startTime);
+            epic.setEndTime(endTime);
+            epic.setDuration(Duration.between(epic.getStartTime(), epic.getEndTime()));
         }
     }
 }
