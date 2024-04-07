@@ -11,6 +11,8 @@ import sprint.models.Status;
 import sprint.models.Subtask;
 import sprint.models.Task;
 
+import java.time.LocalDateTime;
+
 public class ManagersTest {
     private InMemoryTaskManager taskManager;
     private InMemoryHistoryManager historyManager;
@@ -74,5 +76,23 @@ public class ManagersTest {
         Assertions.assertEquals(taskManager.getHistory().get(0), task1);
         taskManager.getTask(1);
         Assertions.assertEquals(taskManager.getHistory().get(1), task1);
+    }
+
+    @Test
+    void checkFunctionOfPriority() {
+        Task task1 = new Task(4, "testTask1", "testTask1",
+                Status.IN_PROGRESS, 60, LocalDateTime.of(
+                        2024, 4, 7, 12, 30));
+        Task task2 = new Task(5, "testTask2", "testTask2",
+                Status.IN_PROGRESS, 60, LocalDateTime.of(
+                        2025, 4, 7, 12, 30));
+        Task task3 = new Task(6, "testTask3", "testTask3",
+                Status.IN_PROGRESS, 60, LocalDateTime.of(
+                2025, 5, 7, 12, 30));
+        taskManager.createTask(task1);
+        taskManager.createTask(task2);
+        taskManager.createTask(task3);
+        Assertions.assertEquals(
+                taskManager.getPrioritizedTasks().getFirst(), task1, "Ошибка при проврке функции priority");
     }
 }

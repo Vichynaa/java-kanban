@@ -1,7 +1,19 @@
 package sprint.models;
 
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private int epicId;
+
+    public Subtask(int epicId, String taskName, String description, Integer duration, LocalDateTime startTime) {
+        super(taskName, description, duration, startTime);
+        this.epicId = epicId;
+    }
+
+    public Subtask(int epicId, int id, String taskName, String description, Status status, Integer duration, LocalDateTime startTime) {
+        super(id, taskName, description, status, duration, startTime);
+        this.epicId = epicId;
+    }
 
     public Subtask(int epicId, String taskName, String description) {
         super(taskName, description);
@@ -22,8 +34,12 @@ public class Subtask extends Task {
     }
 
     public String csvString() {
-        return String.format("%d,%s,%s,%s,%s,%d", this.getId(), Type.SUBTASK, this.getTaskName(),
-                this.getStatus(), this.getDescription(), this.getEpicId());
+        if (getStartTime() == null) {
+            return String.format("%d,%s,%s,%s,%s,%d", this.getId(), Type.SUBTASK, this.getTaskName(),
+                    this.getStatus(), this.getDescription(),this.getEpicId());
+        }
+        return String.format("%d,%s,%s,%s,%s,%s,%s,%d", this.getId(), Type.SUBTASK, this.getTaskName(),
+                this.getStatus(), this.getDescription(), getDuration().toString(), getStartTime().toString(),this.getEpicId());
     }
 
     @Override

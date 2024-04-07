@@ -1,13 +1,21 @@
 package sprint.managers;
 
 import sprint.exceptions.ManagerSaveException;
-import sprint.models.*;
+import sprint.models.Epic;
+import sprint.models.Status;
+import sprint.models.Subtask;
+import sprint.models.Task;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +101,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() {
         newFile();
-        String csv = "id,type,name,status,description,epic\n";
+        String csv = "id,type,name,status,description,epic,duration,startTime\n";
         try (BufferedWriter dataWriter = new BufferedWriter(new FileWriter(DATA_PATH, StandardCharsets.UTF_8))) {
             dataWriter.write(csv);
             for (Task task : super.tasks.values()) {
@@ -166,11 +174,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String[] values = value.split(",");
         switch (values[1]) {
             case "TASK":
+                if (values.length > 6) {
+                    return new Task(Integer.parseInt(values[0]), values[2], values[4], Status.valueOf(values[3]),
+                            (int) Duration.parse(values[5]).toMinutes(), LocalDateTime.parse(values[6]));
+                }
                 return new Task(Integer.parseInt(values[0]), values[2], values[4], Status.valueOf(values[3]));
             case "EPIC":
                 return new Epic(Integer.parseInt(values[0]), values[2], values[4], Status.valueOf(values[3]));
         }
-        return new Subtask(Integer.parseInt(values[5]), Integer.parseInt(values[0]), values[2], values[4], Status.valueOf(values[3]));
+        if (values.length > 6) {
+            return new Subtask(Integer.parseInt(values[7]), Integer.parseInt(values[0]), values[2], values[4],
+                    Status.valueOf(values[3]),
+                    (int) Duration.parse(values[5]).toMinutes(), LocalDateTime.parse(values[6]));
+        }
+        return new Subtask(Integer.parseInt(values[5]), Integer.parseInt(values[0]),
+                values[2], values[4], Status.valueOf(values[3]));
     }
 
     private static List<Integer> historyFromString(String value) {
