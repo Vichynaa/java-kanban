@@ -2,6 +2,8 @@ package sprint.models;
 
 import sprint.managers.InMemoryTaskManager;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -9,6 +11,26 @@ public class Task {
     private String taskName;
     private String description;
     private Status status;
+    private Duration duration = null;
+    private LocalDateTime startTime = null;
+
+    public Task(String taskName, String description, Integer duration, LocalDateTime startTime) {
+        this.id = InMemoryTaskManager.createId();
+        this.taskName = taskName;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = Duration.ofMinutes(duration);
+        this.startTime = startTime;
+    }
+
+    public Task(int id, String taskName, String description, Status status, Integer duration, LocalDateTime startTime) {
+        this.taskName = taskName;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        this.duration = Duration.ofMinutes(duration);
+        this.startTime = startTime;
+    }
 
     public Task(String taskName, String description) {
         this.id = InMemoryTaskManager.createId();
@@ -52,6 +74,30 @@ public class Task {
         this.status = status;
     }
 
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null) {
+            return startTime.plus(duration);
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,9 +112,14 @@ public class Task {
     }
 
     public String csvString() {
-        return String.format("%d,%s,%s,%s,%s", this.getId(), Type.TASK, this.getTaskName(),
-                this.getStatus(), this.getDescription());
+        if (startTime == null) {
+            return String.format("%d,%s,%s,%s,%s", this.getId(), Type.TASK, this.getTaskName(),
+                    this.getStatus(), this.getDescription());
+        }
+        return String.format("%d,%s,%s,%s,%s,%s,%s", this.getId(), Type.TASK, this.getTaskName(),
+                this.getStatus(), this.getDescription(), this.duration.toString(), this.startTime.toString());
     }
+
 
     @Override
     public String toString() {
