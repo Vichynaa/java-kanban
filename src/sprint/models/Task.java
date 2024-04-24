@@ -123,11 +123,13 @@ public class Task {
 
     @Override
     public String toString() {
-        return "sprint4.models.Task{" +
-                "taskName='" + taskName + '\'' +
+        return "Task{" +
+                "id=" + id +
+                ", taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
-                ", id=" + id +
                 ", status=" + status +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
                 '}';
     }
 }
