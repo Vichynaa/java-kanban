@@ -104,6 +104,7 @@ public class SubtasksHandlerTest {
             client.send(requestUpdate, HttpResponse.BodyHandlers.ofString());
             assertEquals(bodyUpdateTest, gson.toJson(HttpTaskServer.getManager().getSubtask(2)), "Ошибка при обновлении таски");
             client.send(requestDelete, HttpResponse.BodyHandlers.ofString());
+            assertEquals(HttpTaskServer.getManager().getSubtasks().toString(), "[]", "Ошибка Delete в SubtasksHandler");
         }, "Ошибка сервера в тесте checkPostFunctionOfHandler");
     }
 
