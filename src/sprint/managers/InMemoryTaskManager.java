@@ -186,6 +186,10 @@ public class InMemoryTaskManager implements TaskManager {
         InMemoryTaskManager.id = id;
     }
 
+    public Set<Integer> getKeysTasks() {
+        return tasks.keySet();
+    }
+
     public boolean validate(Task task1, Task task2) {
         LocalDateTime startTime1 = task1.getStartTime();
         LocalDateTime endTime1 = task1.getEndTime();
