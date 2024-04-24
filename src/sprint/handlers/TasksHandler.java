@@ -9,7 +9,6 @@ import sprint.adapters.LocalDateTimeAdapter;
 import sprint.exceptions.ValidateException;
 import sprint.managers.InMemoryTaskManager;
 import sprint.models.Task;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -44,8 +43,7 @@ public class TasksHandler implements HttpHandler {
                     if (Pattern.matches("^/tasks$", path)) {
                         if (task.getDuration() != null) {
                             taskPost = new Task(task.getTaskName(), task.getDescription(), (int) task.getDuration().toMinutes(), task.getStartTime());
-                        }
-                        else {
+                        } else {
                             taskPost = new Task(task.getTaskName(), task.getDescription());
                         }
                         manager.createTask(taskPost);
@@ -54,8 +52,7 @@ public class TasksHandler implements HttpHandler {
                         if (task.getDuration() != null) {
                             taskPost = new Task(id, task.getTaskName(), task.getDescription(),
                                     task.getStatus(), (int) task.getDuration().toMinutes(), task.getStartTime());
-                        }
-                        else {
+                        } else {
                             taskPost = new Task(id, task.getTaskName(), task.getDescription(),
                                     task.getStatus());
                         }

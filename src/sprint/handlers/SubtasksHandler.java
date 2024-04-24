@@ -59,8 +59,7 @@ public class SubtasksHandler implements HttpHandler {
                             subtaskPost = new Subtask(subtask.getEpicId(), id, subtask.getTaskName(), subtask.getDescription(),
                                     subtask.getStatus(), (int) subtask.getDuration().toMinutes(), subtask.getStartTime());
 
-                        }
-                        else {
+                        } else {
                             subtaskPost = new Subtask(subtask.getEpicId(), id, subtask.getTaskName(), subtask.getDescription(),
                                     subtask.getStatus());
                         }

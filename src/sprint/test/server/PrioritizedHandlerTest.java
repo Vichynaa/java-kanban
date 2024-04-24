@@ -9,10 +9,7 @@ import org.junit.jupiter.api.Test;
 import sprint.adapters.DurationTypeAdapter;
 import sprint.adapters.LocalDateTimeAdapter;
 import sprint.managers.InMemoryTaskManager;
-import sprint.managers.Managers;
-import sprint.models.Task;
 import sprint.servers.HttpTaskServer;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
