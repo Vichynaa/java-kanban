@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import sprint.adapters.DurationTypeAdapter;
 import sprint.adapters.LocalDateTimeAdapter;
 import sprint.managers.InMemoryTaskManager;
-import sprint.managers.Managers;
-import sprint.models.Task;
 import sprint.servers.HttpTaskServer;
 
 import java.io.IOException;
@@ -106,7 +104,6 @@ public class SubtasksHandlerTest {
             client.send(requestUpdate, HttpResponse.BodyHandlers.ofString());
             assertEquals(bodyUpdateTest, gson.toJson(HttpTaskServer.getManager().getSubtask(2)), "Ошибка при обновлении таски");
             client.send(requestDelete, HttpResponse.BodyHandlers.ofString());
-//            assertEquals(HttpTaskServer.getManager().getSubtasks().toString(), "[]", "Ошибка Delete d SubtasksHandler");
         }, "Ошибка сервера в тесте checkPostFunctionOfHandler");
     }
 
