@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 public class PrioritizedHandler implements HttpHandler {
-    InMemoryTaskManager manager;
-    Gson gson = new GsonBuilder()
+    private final InMemoryTaskManager manager;
+    private final Gson gson = new GsonBuilder()
             .serializeNulls()
             .setPrettyPrinting()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())

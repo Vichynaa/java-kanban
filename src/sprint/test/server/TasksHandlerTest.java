@@ -24,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TasksHandlerTest {
-    final HttpClient client = HttpClient.newBuilder().build();
-    HttpServer httpServer;
-    Gson gson = new GsonBuilder()
+    private final HttpClient client = HttpClient.newBuilder().build();
+    private HttpServer httpServer;
+    private final Gson gson = new GsonBuilder()
             .serializeNulls()
             .setPrettyPrinting()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())

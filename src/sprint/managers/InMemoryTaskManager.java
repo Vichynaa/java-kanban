@@ -178,16 +178,17 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(epics.values());
     }
 
+    @Override
+    public Set<Integer> getKeysTasks() {
+        return tasks.keySet();
+    }
+
     public List<Task> getHistory() {
         return history.getHistory();
     }
 
     public static void setId(int id) {
         InMemoryTaskManager.id = id;
-    }
-
-    public Set<Integer> getKeysTasks() {
-        return tasks.keySet();
     }
 
     public boolean validate(Task task1, Task task2) {

@@ -6,6 +6,7 @@ import sprint.models.Task;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     void removeTasks();
@@ -45,4 +46,6 @@ public interface TaskManager {
     Collection<Subtask> getSubtasks();
 
     Collection<Epic> getEpics();
+
+    Set<Integer> getKeysTasks();
 }

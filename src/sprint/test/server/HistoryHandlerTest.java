@@ -10,6 +10,7 @@ import sprint.adapters.DurationTypeAdapter;
 import sprint.adapters.LocalDateTimeAdapter;
 import sprint.managers.InMemoryTaskManager;
 import sprint.servers.HttpTaskServer;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -22,10 +23,10 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PrioritizedHandlerTest {
-    final HttpClient client = HttpClient.newBuilder().build();
-    HttpServer httpServer;
-    Gson gson = new GsonBuilder()
+public class HistoryHandlerTest {
+    private final HttpClient client = HttpClient.newBuilder().build();
+    private HttpServer httpServer;
+    private final Gson gson = new GsonBuilder()
             .serializeNulls()
             .setPrettyPrinting()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
@@ -48,24 +49,26 @@ public class PrioritizedHandlerTest {
     @Test
     void checkFunctionOfTaskHandler() {
         String bodyTest = "{\n" +
-                "\t\"taskName\": \"1121231231231233123\",\n" +
-                "\t\"description\": \"Описание новой задачи1\",\n" +
-                "\t\"duration\": 60,\n" +
-                "\t\"startTime\": \"2023-04-25T10:00:00\"\n" +
+                "  \"id\": 1,\n" +
+                "  \"taskName\": \"Новая задача\",\n" +
+                "  \"description\": \"Описание новой задачи\",\n" +
+                "  \"status\": \"NEW\",\n" +
+                "  \"duration\": null,\n" +
+                "  \"startTime\": null\n" +
                 "}";
-        String prioritizedCheck = "[\n" +
+        String historyCheck = "[\n" +
                 "  {\n" +
                 "    \"id\": 1,\n" +
-                "    \"taskName\": \"1121231231231233123\",\n" +
-                "    \"description\": \"Описание новой задачи1\",\n" +
+                "    \"taskName\": \"Новая задача\",\n" +
+                "    \"description\": \"Описание новой задачи\",\n" +
                 "    \"status\": \"NEW\",\n" +
-                "    \"duration\": 60,\n" +
-                "    \"startTime\": \"2023-04-25T10:00:00\"\n" +
+                "    \"duration\": null,\n" +
+                "    \"startTime\": null\n" +
                 "  }\n" +
                 "]";
         URI url = URI.create("http://localhost:8080/tasks");
         URI urlUpdate = URI.create("http://localhost:8080/tasks/1");
-        URI history = URI.create("http://localhost:8080/prioritized");
+        URI history = URI.create("http://localhost:8080/history");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .POST(HttpRequest.BodyPublishers.ofString(bodyTest))
@@ -74,15 +77,15 @@ public class PrioritizedHandlerTest {
                 .uri(urlUpdate)
                 .GET()
                 .build();
-        HttpRequest requestPrioritized = HttpRequest.newBuilder()
+        HttpRequest requestHistory = HttpRequest.newBuilder()
                 .uri(history)
                 .GET()
                 .build();
         assertDoesNotThrow(() -> {
             client.send(request, HttpResponse.BodyHandlers.ofString());
             client.send(requestGet, HttpResponse.BodyHandlers.ofString());
-            HttpResponse<String> responsePrioritized = client.send(requestPrioritized, HttpResponse.BodyHandlers.ofString());
-            assertEquals(responsePrioritized.body(), prioritizedCheck, "Ошибка Get в PrioritizedHandler");
+            HttpResponse<String> responseHistory = client.send(requestHistory, HttpResponse.BodyHandlers.ofString());
+            assertEquals(responseHistory.body(), historyCheck, "Ошибка Get в HistoryHandler");
         }, "Ошибка сервера в тесте checkPostFunctionOfHandler");
     }
 
