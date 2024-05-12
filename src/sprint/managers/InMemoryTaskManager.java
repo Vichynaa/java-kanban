@@ -96,7 +96,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeSubtask(int id) {
         Epic epic = epics.get((subtasks.get(id).getEpicId()));
-        epic.getSubtasks().remove(id);
+        epic.getSubtasks().remove((Object) id);
         subtasks.remove(id);
         epic.setStatus(calcStatus(epic));
         calcEpicTime(epic);
@@ -176,6 +176,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Epic> getEpics() {
         return new ArrayList<>(epics.values());
+    }
+
+    @Override
+    public Set<Integer> getKeysTasks() {
+        return tasks.keySet();
     }
 
     public List<Task> getHistory() {
